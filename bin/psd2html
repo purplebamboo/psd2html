@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'psd2html'
 psdPath = ARGV[0]
 dstHtmlPath = ARGV[1]
