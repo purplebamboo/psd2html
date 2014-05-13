@@ -6,7 +6,8 @@ require 'psd2html/version'
 Gem::Specification.new do |spec|
   spec.name          = "psd2html"
   spec.version       = Psd2html::VERSION
-  spec.date             = Time.now.strftime('%Y-%m-%d')
+  spec.date          = Time.now.strftime('%Y-%m-%d')
+  spec.executables   = spec.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   spec.authors       = ["cherishpeace"]
   spec.email         = ["xhzhuweikang@163.com"]
   spec.summary       = %q{psd2html是一个可以通过特定ps约定来自动生成html的ruby程序。支持命令行和程序内部引用。}
