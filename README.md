@@ -16,11 +16,13 @@ gem install psd2html
 
 之后这么调用
 ```
-psd2html ./example/simple.psd ./simple.html
+psd2html /vagrant/project/psd2html/example/simple.psd ./test.html
 ```
 打开生成的test.html就可以看到完整100%还原的效果了
 生成的代码如下：
-```
+
+```html
+
 <meta charset="utf-8" />
 <style type="text/css">
     .root-container{ position:relative; } .block-link-container0{ position:absolute;
@@ -64,16 +66,19 @@ psd2html ./example/simple.psd ./simple.html
     </a>
 </div>
 ```
+
 当然不是所有的psd都可以的，必须是遵循一定的规范的psd才行
 
 
 
 ### psd规范
 
-我们看下下面的这个psd文件。
+我们看下下面的这个psd文件。 
+
 ![图层](http://blogzwk.qiniudn.com/aa.JPG)
 
-对应的效果为
+对应的效果为 
+
 ![效果](http://blogzwk.qiniudn.com/22.jpg)
 
 可以看到这是一个典型的宝贝区块的psd文件
