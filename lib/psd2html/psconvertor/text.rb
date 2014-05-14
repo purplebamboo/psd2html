@@ -9,8 +9,8 @@ module Psd2html
   					"display" => "inline-block",
 	  				"width" => "#{@psNode.width+2}px",
 	  				"height" => "#{@psNode.height+2}px",
-	  				"left" => "#{@psNode.left-@parentConvertor.psNode.left}px",
-	  				"top" => "#{@psNode.top-@parentConvertor.psNode.top}px",
+	  				"left" => curleft,
+	  				"top" => curtop,
 	  				"z-index" => "#{@psNode.depth}#{@parentConvertor.childrenConvertors.length - @index.to_i}"
 	  			}
   			}

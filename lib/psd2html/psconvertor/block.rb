@@ -3,6 +3,7 @@ module Psd2html
 	  	class Block < ::Psd2html::Convertor
 	  		
 	  		def css_skeleton
+
 	  			cssRenderData = {
 	  				"classname" => "block-#{guid}",
 		  			"styles" => {
@@ -10,8 +11,8 @@ module Psd2html
 		  				"display" => "inline-block",
 		  				"width" => "#{@psNode.width}px",
 		  				"height" => "#{@psNode.height}px",
-		  				"left" => "#{@psNode.left-@parentConvertor.psNode.left}px",
-	  					"top" => "#{@psNode.top-@parentConvertor.psNode.top}px",
+		  				"left" => curleft,
+	  					"top" => curtop,
 	  					"z-index" => "#{@psNode.depth}#{@parentConvertor.childrenConvertors.length - @index.to_i}"
 		  			}
 	  			}

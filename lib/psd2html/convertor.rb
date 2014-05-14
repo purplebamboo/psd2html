@@ -1,5 +1,6 @@
 require "mustache"
 require 'digest/md5'
+require_relative '../until.rb'
 module Psd2html
   	class Convertor
   		attr_accessor :psNode, :index, :childrenConvertors,:parentConvertor
@@ -23,11 +24,12 @@ module Psd2html
   			"tag" => "div",
   			"content" => ""
   		}
-  		def initialize(psNode,index)
+  		def initialize(psNode,index,dstPath)
 		    @psNode = psNode
 		    @index = index
 		    @parentConvertor = nil
 		    @childrenConvertors = []
+        @dstPath = dstPath
 	    end
 	    def guid
 	    	className = @psNode.name.split("|")[-2]
@@ -39,6 +41,15 @@ module Psd2html
 	    	end
 	    	
 	    end
+
+      def curleft
+        wrapleft = @parentConvertor.psNode.respond_to?("left") ? parentConvertor.psNode.left : 0
+        "#{@psNode.left-wrapleft}px"
+      end
+      def curtop
+        wraptop = @parentConvertor.psNode.respond_to?("top") ? parentConvertor.psNode.top : 0
+        "#{@psNode.top-wraptop}px"
+      end
 	    #需要被重写，用于生成css的对象hash
 	    def css_skeleton
 	    	CSS_HASH_BASE
@@ -55,6 +66,7 @@ module Psd2html
 	    end
 	    #为了处理css的同名问题，需要使用一个hash来去重
 	    def css_map
+        Until.log("start generate css of #{@psNode.name}...")
 	    	return unless css_skeleton
 	    	data = css_skeleton.clone
 	    	data["styles"] = hash_to_array(data["styles"])
@@ -75,6 +87,7 @@ module Psd2html
 	    end
 	    
 	    def render_html
+        Until.log("start generate html of #{}...")
 	    	return "" unless html_skeleton
 	    	data = html_skeleton.clone
 	    	data["attributes"] = hash_to_array(data["attributes"])
@@ -103,10 +116,16 @@ module Psd2html
 	      def css_hook(style)
 	      	hookHash = {
 	      		"pt" => "px",
-	      		"MicrosoftYaHei" => "microsoft yahei"
+	      		"MicrosoftYaHei" => "microsoft yahei",
+            "rgba\\((\\s*\\d+,\\s*\\d+,\\s*\\d+),\\s*\\d+\\)" => -> { '#' + $1.split(',').map { |v| v.to_i.to_s(16) }.join }
 	      	}
 	      	hookHash.each do |key,value|
-	      		style = style.gsub(key,value)
+            if value.is_a?(Proc)
+              
+              style = style.gsub(Regexp.new(key)) { value.call }
+            else
+              style = style.gsub(Regexp.new(key), value)
+            end
 	      	end
 	      	style
 	      end

@@ -1,12 +1,21 @@
 #!/usr/bin/env ruby
-require 'psd2html'
+require_relative '../lib/psd2html.rb'
 psdPath = ARGV[0]
 dstHtmlPath = ARGV[1]
-psd = Psd2Html.new(psdPath)
-unless dstHtmlPath
-  puts psd.render()
-else
+
+if psdPath && dstHtmlPath
+  psd = Psd2Html.new(psdPath,dstHtmlPath)
   fh = File.new(dstHtmlPath, "w")  #创建一个可写文件流
   fh.puts psd.render()
   fh.close
+else
+  puts <<-EOF
+  Please provide psdpath and htmlpath
+
+  Usage:
+    psd2html psdpath htmlpath
+  EOF
 end
+
+
+

@@ -7,10 +7,11 @@ module Psd2html
 	  			"styles" => {
 	  				"position" => "absolute",
   					"display" => "inline-block",
+            "border" => "none",
 	  				"width" => "#{@psNode.width}px",
 	  				"height" => "#{@psNode.height}px",
-	  				"left" => "#{@psNode.left-@parentConvertor.psNode.left}px",
-	  				"top" => "#{@psNode.top-@parentConvertor.psNode.top}px",
+	  				"left" => curleft,
+	  				"top" => curtop,
 	  				"z-index" => "#{@psNode.depth}#{@parentConvertor.childrenConvertors.length - @index.to_i}"
 	  			}
   			}
@@ -20,8 +21,10 @@ module Psd2html
 	    	"<{{tag}} {{#attributes}} {{key}}=\"{{value}}\" {{/attributes}} />"
 	    end
 	    def html_skeleton
-	    	imgUrl = "./img-source-#{guid}-#{Time.now.to_i}.png"
-	    	@psNode.image.save_as_png(imgUrl)
+        
+
+	    	imgUrl = "#{File.dirname(@dstPath)}/img-source-#{guid}-#{Time.now.to_i}.png"
+        @psNode.image.save_as_png(imgUrl)
 	    	htmlRenderData = {
 	    		"attributes" => {
 	  				"class" => "img-#{guid}",
