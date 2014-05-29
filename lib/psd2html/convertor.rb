@@ -32,7 +32,11 @@ module Psd2html
         @dstPath = dstPath
 	    end
 	    def guid
-	    	className = @psNode.name.split("|")[-2]
+        if @psNode.name.include?("|")
+	    	  className = @psNode.name.split("|")[-2]
+        else
+          className = @psNode.name
+        end
 	    	guidStr = className+@index.to_s
 	    	if /\p{Han}+/u.match(className)
 	    		Digest::MD5.hexdigest(guidStr)
@@ -87,7 +91,7 @@ module Psd2html
 	    end
 	    
 	    def render_html
-        Until.log("start generate html of #{}...")
+        Until.log("start generate html of #{@psNode.name}...")
 	    	return "" unless html_skeleton
 	    	data = html_skeleton.clone
 	    	data["attributes"] = hash_to_array(data["attributes"])

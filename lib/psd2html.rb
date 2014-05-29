@@ -47,13 +47,28 @@ class Psd2Html
   end
 
   protected
+    def get_convertorname(node)
+      type = node.to_hash[:type]
+      if node.name.include?("|")
+        convertorName = node.name.split('|').last.to_s
+      elsif type == :group
+        convertorName = "block"
+      elsif type == :layer && !node.text.nil?
+        convertorName = "text"
+      else
+        convertorName = "img"
+      end 
+      
+    end
   	def get_convertor(node,index)
 
   		return CONVERTING_MAP["root"].new(node,index,@dstHtmlPath) if node.root? 
 
-  		return unless node.name.include?("|") 
-
-  		convertorName = node.name.split('|').last.to_s
+  		#return unless node.name.include?("|") 
+      #if node.name.include?("|")
+        #convertorName = node.name.split('|').last.to_s
+      #end
+  		convertorName = get_convertorname(node)
   		unless CONVERTING_MAP.include?(convertorName)
   			return
   		end
