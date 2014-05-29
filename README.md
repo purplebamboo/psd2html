@@ -7,7 +7,7 @@ psd2html会自动解析你的psd文件生成相应的html代码包括css。生�
 
 应该说完美的psd2html的解决方案几乎是不存在的。经过一些调研，最终确定了使用一种约定生成的方式。
 
-
+详细请看：http://cherishpeace.github.io/2014/05/29/change-psd-to-html/
 ###安装与使用
 使用gem安装
 ```
